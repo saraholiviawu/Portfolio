@@ -67,23 +67,24 @@
       <div class="comment-wrapper">
         <form action="/new-comment" method="POST">
 
-          <h2>Comments Section</h2> <!-- Come back later to update number of comments-->
-          <br/>
-          <p>I would love to hear your thoughts, feedback, or any comments! :)</p>
-          <br/>
-          <label for="namebox">Name:</label>
-          <textarea name="namebox" placeholder="Sarah Wu"></textarea>
-          <br/><br/>
+          <h2>Comments Section</h2> <!-- Come back later to update number of comments--><br/>
+          <p>I would love to hear your thoughts, feedback, or any comments! :)</p><br/>
+          <label for="max-comments">Display max comments:</label>
+          <select name="max-comments" id="max-comments">
+            <option type="number" value="5">5</option>
+            <option type="number" value="10">10</option>
+            <option type="number" value="15">15</option>
+          </select><br><br>
+          <input type="submit" value="Submit"><br/><br/>
+          <label for="namebox">Name:</label><br/><br/>
+          <textarea name="namebox" placeholder="Sarah Wu"></textarea><br/><br/>
 
           <label for="textbox">Comment:</label>
-          <textarea name="textbox" placeholder="Commenting publicly..."></textarea>
-          <br/><br/>
-
-          <button>Submit</button>
+          <textarea name="textbox" placeholder="Commenting publicly..."></textarea><br/><br/>
+          <input type="submit" value="Submit">
           
-        </form>
+        </form><br/>
         <!-- Comment history -->
-        <br/>
         <ul id="history"></ul>
 
       </div>
