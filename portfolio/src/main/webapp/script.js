@@ -86,3 +86,10 @@ function createCommentElement(comment) {
   commentElement.appendChild(deleteButtonElement);
   return commentElement;
 }
+
+/** Tells the server to delete the task. */
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-comment', {method: 'POST', body: params});
+}

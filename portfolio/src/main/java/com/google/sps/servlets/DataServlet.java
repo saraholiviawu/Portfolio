@@ -41,12 +41,7 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     // Let user pick max number of comments to fetch and display
-    int maxComments = getMaxComments(request);
-    if (maxComments == -1) {
-      response.setContentType("text/html");
-      response.getWriter().println("Please enter a valid integer");
-      return;
-    }
+    // int maxComments = getMaxComments(request);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -61,6 +56,17 @@ public class DataServlet extends HttpServlet {
       Comment singleComment = new Comment(id, name, text, timestamp);
       comments.add(singleComment);
     }
+
+    // // Ensure maxComments is not greater than the existing number of comments
+    // if (comments.size() < maxComments) {
+    //  maxComments = comments.size();
+    // }
+
+    // // Remove comments that do not fit within maxComments
+    // for (int i = comments.size()-1; i > maxComments; i--) {
+    //   comments.remove(i);
+    // }
+
     Gson gson = new Gson();
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
