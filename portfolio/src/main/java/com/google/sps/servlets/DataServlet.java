@@ -14,7 +14,19 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +38,75 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+
+    // Let user pick max number of comments to fetch and display
+    int maxComments = getMaxComments(request);
+    if (maxComments == -1) {
+      response.setContentType("text/html");
+      response.getWriter().println("Please enter a valid integer");
+      return;
+    }
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    List<Comment> comments = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+      String name = (String) entity.getProperty("name");
+      String text = (String) entity.getProperty("text");
+      long timestamp = (long) entity.getProperty("timestamp");
+
+      Comment singleComment = new Comment(id, name, text, timestamp);
+      comments.add(singleComment);
+    }
+    Gson gson = new Gson();
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(comments));
   }
+
+    /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
+
+  public final class Comment {
+    private final long id;
+    private final String name;
+    private final String text;
+    private final long timestamp;
+
+    public Comment(long id, String name, String text, long timestamp) {
+      this.id = id;
+      this.name = name;
+      this.text = text;
+      this.timestamp = timestamp;
+    }
+  }
+
+  /** Returns the choice entered by the user, or -1 if the choice was invalid. */
+  private int getMaxComments(HttpServletRequest request) {
+    // Get the input from the form.
+    String maxCommentsString = request.getParameter("max-comments");
+
+    // Convert the input to an int.
+    int maxComments;
+    try {
+      maxComments = Integer.parseInt(maxCommentsString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + maxCommentsString);
+      return -1;
+    }
+
+    return maxComments;
+  }
+
 }
