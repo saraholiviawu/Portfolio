@@ -63,7 +63,7 @@ public class DataServlet extends HttpServlet {
     }
     
     // Remove comments that do not fit within maxComments
-    for (int i = comments.size()-1; i > showComments-1; i--) {
+    for (int i = comments.size() - 1; i > showComments - 1; i--) {
       comments.remove(i);
     }
 
