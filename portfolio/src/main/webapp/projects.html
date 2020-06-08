@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sarah Wu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500;600;700&family=Yrsa:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yrsa:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <!-- font-family: 'Crimson Text', serif; -->
+    <!-- font-family: 'Raleway', sans-serif; -->
+    <!-- font-family: 'Cormorant', serif; SMALLER TEXT-->
+    <!-- font-family: 'Yrsa', serif; TITLES-->
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="navbar">
+        <div class="left-side">
+
+          <div class="media-link">
+            <a href="https://github.com/saraholiviawu">
+            <img border="0" alt="Github" src="/images/Github.png" width="23" height="23">
+            </a>
+          </div>
+        
+          <div class="media-link">
+            <a href="https://www.linkedin.com/in/saraholiviawu/">
+            <img border="0" alt="Linkedin" src="/images/Linkedin.png" width="23" height="23">
+            </a>
+          </div>
+
+        </div>
+
+        <div class="right-side">
+          <div class="navbar-link">
+            <a href="about.html">ABOUT ME</a>
+          </div>
+
+          <div class="navbar-link">
+            <a href="projects.html">PROJECTS</a>
+          </div>
+
+          <div class="navbar-link">
+            <a href="gallery.html">GALLERY</a>
+          </div>
+           
+        </div>
+      </div>
+
+      <div class="project-content-wrapper">
+        <h1>PROJECTS</h1>
+        <div class="project-items-wrapper">
+
+          <div class="project-item-wrapper">
+            <div class="project-img-background" id="project-img-1"></div>
+            <div class="project-img-text-wrapper">
+              <div class="project-logo-wrapper">
+                <img src="images/project1-logo.png">
+              </div>
+              <div class="project-subtitle">
+                <h2>What's Cooking?</h2>
+                <br>
+                <p>Designed a web application that promotes food sustainability and minimizes food waste by allowing users to search for food recipes based on available ingredients.</p>
+                <br>
+                <p>With each query, this program calls a recipe search API, parses through its database for the given ingredients, and returns the corresponding recipe options. Programmed in HTML, CSS, JavaScript, and Python.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-item-wrapper">
+            <div class="project-img-background" id="project-img-2"></div>
+            <div class="project-img-text-wrapper">
+              <div class="project-logo-wrapper">
+                <img src="images/project2-logo.png">
+              </div>
+              <div class="project-subtitle">
+                <h2>Immune Cell and Bacteria Model</h2>
+                <br>
+                <p>Modeled the migration of a neutrophil immune cell with subcellular protein diffusion and reaction using Matlab. Allows for a visual analysis of the effect of a chemoatttractant signal emitted by E. Coli bacteria on the immune cell.</p>
+              </div>
+            </div> 
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+    <script>
+    const projectItems = document.querySelectorAll('.project-item-wrapper');
+    projectItems.forEach(projectItem => {
+        projectItem.addEventListener('mouseover', () => {
+            projectItem.childNodes[1].classList.add('project-img-darken');
+        })
+
+        projectItem.addEventListener('mouseout', () => {
+            projectItem.childNodes[1].classList.remove('project-img-darken');
+        })
+    })
+    </script>
+
+  </body>
+</html>
