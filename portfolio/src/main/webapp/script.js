@@ -49,8 +49,11 @@ function createListElement(text) {
 
 /* Retrieve JSON from the server and use build-in json() to parse response into objects */
 
-function commentFunction() {
-  fetch('/data')  // sends a request to /my-data-url
+function commentFunction(showComments) {
+  // Clear out existing children
+  document.getElementById('history').innerHTML = "";
+
+  fetch('/data?show-comments='+showComments)  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     const commentListElement = document.getElementById('history');
