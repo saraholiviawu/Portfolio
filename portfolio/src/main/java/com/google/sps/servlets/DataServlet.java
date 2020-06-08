@@ -40,8 +40,10 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
-    // Let user pick max number of comments to fetch and display
-    // int maxComments = getMaxComments(request);
+    // Let user request number of comments to fetch and display
+    // int reqComments = getReqComments(request);
+    // System.out.println(reqComments);
+    int reqComments = 5;
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -57,15 +59,15 @@ public class DataServlet extends HttpServlet {
       comments.add(singleComment);
     }
 
-    // // Ensure maxComments is not greater than the existing number of comments
-    // if (comments.size() < maxComments) {
-    //  maxComments = comments.size();
-    // }
-
-    // // Remove comments that do not fit within maxComments
-    // for (int i = comments.size()-1; i > maxComments; i--) {
-    //   comments.remove(i);
-    // }
+    // Ensure maxComments is not greater than the existing number of comments
+    if (comments.size() < reqComments) {
+     reqComments = comments.size();
+    }
+    
+    // Remove comments that do not fit within maxComments
+    for (int i = comments.size()-1; i > reqComments-1; i--) {
+      comments.remove(i);
+    }
 
     Gson gson = new Gson();
     response.setContentType("application/json;");
