@@ -43,7 +43,7 @@ public class AddCommentServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
-    response.sendRedirect("/about.html");
+    response.sendRedirect("/comments.html");
   }
 
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {

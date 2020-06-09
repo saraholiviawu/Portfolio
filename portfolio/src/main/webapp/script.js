@@ -50,9 +50,15 @@ function createListElement(text) {
 /* Retrieve JSON from the server and use build-in json() to parse response into objects */
 
 function commentFunction(showComments) {
+  
+  // Check if user is logged in. If so, unhide the form. If user not logged in, display a login link.
+  fetch('/login')
+  .then(response => response.json())
+
   // Clear out existing children
   document.getElementById('history').innerHTML = "";
 
+  // If user is logged in
   fetch('/data?show-comments='+showComments)  // sends a request to /my-data-url
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
@@ -81,10 +87,8 @@ function createCommentElement(comment) {
     // Remove the task from the DOM.
     commentElement.remove();
   });
-
   
   commentElement.appendChild(nameElement);
-//   commentElement.appendChild(breakElement);
   commentElement.appendChild(textElement);
   commentElement.appendChild(deleteButtonElement);
   return commentElement;
@@ -95,4 +99,11 @@ function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('id', comment.id);
   fetch('/delete-comment', {method: 'POST', body: params});
+}
+
+/** Creates a map and adds it to the page. */
+function createMap() {
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
 }

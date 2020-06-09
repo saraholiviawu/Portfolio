@@ -179,26 +179,6 @@ h2 p {
     font-size: 22px;
 }
 
-.comment-wrapper {
-    padding: 30px;
-}
-
-.comment-wrapper ul {
-    list-style-type: none;
-}
-
-.comment-wrapper h2 {
-    font-family: 'Crimson Text', serif;
-    font-weight: 600;
-    font-size: 40px;
-}
-
-.comment-wrapper p {
-    justify-content: center;
-    color: #fff;
-    font-size: 22px
-}
-
 /*GALLERY page */
 
 .gal-cover-container {
@@ -269,11 +249,6 @@ h2 p {
     padding: 14px;
     height: 900px;
     width: auto;
-}
-
-.comment-wrapper {
-    color: #fff;
-    text-align: center;
 }
 
 /* PROJECTS page */
@@ -347,4 +322,53 @@ h2 p {
     font-size: 100px;
     text-align: center;
     padding: 30px;
+}
+
+/* COMMMENTS page */
+
+.comment-wrapper {
+    color: #fff;
+    text-align: center;
+    font-family: 'Crimson Text', serif;
+}
+
+.comment-wrapper h1 {
+    font-weight: 600;
+    color: #fff;
+    font-size: 100px;
+    text-align: center;
+    padding: 30px;
+}
+
+.comment-wrapper h2 {
+    color: #fff;
+    font-size: 30px;
+    font-style: italic;
+    font-weight:100;
+    padding-bottom: 30px;
+    min-width: 50vw;
+    max-width: 75vw;
+    margin:0 auto;
+    margin-top: -17px;
+    text-align: center;
+}
+
+.comment-wrapper ul {
+    list-style-type: none;
+}
+
+.comment-wrapper h4 {
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.comment-wrapper p {
+    justify-content: center;
+    color: #fff;
+    font-size: 22px
+}
+
+.form-wrapper {
+    font-size: 22px;
 }
