@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// import { config } from "./config.js";
 
 /* Generates a URL for a random image in the images directory and adds an img
    element with that URL to the page. */
@@ -57,7 +56,13 @@ function createMapFunction() {
   window.initMap = function() {
     const map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: 37.422403, lng: -122.088073}, zoom: 15});
+      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
+
+    const trexMarker = new google.maps.Marker({
+      position: {lat: 37.421903, lng: -122.084674},
+      map: map,
+      title: 'Stan the T-Rex'
+  });
   };
   document.head.appendChild(script);
 }
