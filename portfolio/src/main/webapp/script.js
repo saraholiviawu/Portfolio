@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+// import { config } from "./config.js";
 
 /* Generates a URL for a random image in the images directory and adds an img
    element with that URL to the page. */
@@ -40,14 +40,27 @@ function randomizeImage() {
   captionContainer.innerText = caption;
 }
 
-/** Creates an <li> element containing text. */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+function onloadFunction() {
+    commentFunction('5');
+    createMapFunction();
 }
 
-/* Retrieve JSON from the server and use build-in json() to parse response into objects */
+/** Initializes a map and adds it to the page */
+// document.addEventListener('DOMContentLoaded', function () {
+function createMapFunction() {
+  var mapKey = config.MAP_KEY;
+  console.log(config.MAP_KEY);
+  var script = document.createElement('script');
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=' + mapKey + '&callback=initMap';
+  script.defer = true;
+  script.async = true;
+  window.initMap = function() {
+    const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 37.422403, lng: -122.088073}, zoom: 15});
+  };
+  document.head.appendChild(script);
+}
 
 function commentFunction(showComments) {
   
@@ -69,6 +82,7 @@ function commentFunction(showComments) {
   });
 }
 
+/* Create a comment element */
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
@@ -94,6 +108,13 @@ function createCommentElement(comment) {
   return commentElement;
 }
 
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
 /** Tells the server to delete the task. */
 function deleteComment(comment) {
   const params = new URLSearchParams();
@@ -101,9 +122,9 @@ function deleteComment(comment) {
   fetch('/delete-comment', {method: 'POST', body: params});
 }
 
-/** Creates a map and adds it to the page. */
-function createMap() {
-  const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
-}
+// /** Creates a map and adds it to the page. */
+// function createMap() {
+//   const map = new google.maps.Map(
+//       document.getElementById('map'),
+//       {center: {lat: 37.422, lng: -122.084}, zoom: 16});
+// }

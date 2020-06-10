@@ -372,3 +372,15 @@ h2 p {
 .form-wrapper {
     font-size: 22px;
 }
+
+.comment {
+    padding: 10px;
+}
+
+#map {
+  height: 500px;
+  width: 500px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

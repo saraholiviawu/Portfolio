@@ -5,12 +5,14 @@
     <title>Sarah Wu</title>
     <link href="https://fonts.googleapis.com/css2?family=Yrsa:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <script type='text/javascript' src='config.js'></script>
+    <script type='text/javascript' src="script.js"></script>
+
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
     <!-- font-family: 'Cormorant', serif; -->
     <!-- font-family: 'Yrsa', serif; -->
   </head>
-  <body onload="commentFunction('5')">
+  <body onload="onloadFunction()">
     <div class="container">
 
       <div class="navbar">
@@ -70,12 +72,14 @@
             <option type="number" value="5">5</option>
             <option type="number" value="10">10</option>
             <option type="number" value="15">15</option>
-          </select><br><br>
-        </form><br/><br>
+          </select>
+        </form><br/>
         <!-- Comment history -->
-        <ul id="history"></ul>
-
+        <ul id="history"></ul><br/><br/>
       </div>
+
+      <div class-"map-wrapper">
+        <div id="map"></div>
     </div>
   </body>
 </html>
