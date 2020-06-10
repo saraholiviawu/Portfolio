@@ -137,17 +137,28 @@ function createMapFunction() {
           elementType: 'labels.text.stroke',
           stylers: [{color: '#17263c'}]
         }
-
-
-
       ]
       });
+
+    /** Info window */
+    var contentStrTrexMarker = '<div id="content-trex-marker">' +
+      '<div id="site-notice">' +
+      '<h1 id="first-heading" class="first-heading">Stan the T-rex</h1>' +
+      '<div id="body-content">' +
+      '<p>This is the marker for Stan the T-rex!</p>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentStrTrexMarker
+    });
 
     const trexMarker = new google.maps.Marker({
       position: {lat: 37.421903, lng: -122.084674},
       map: map,
-      title: 'Stan the T-Rex'
-    })
+      title: 'Stan the T-rex'
+    });
+    trexMarker.addListener('click', function() {
+      infowindow.open(map, trexMarker);
+    });
   };
   document.head.appendChild(script);
 }
