@@ -147,7 +147,7 @@ function createMapFunction() {
       position: {lat: 37.421903, lng: -122.084674},
       map: map,
       title: 'Stan the T-Rex'
-  })
+    })
   };
   document.head.appendChild(script);
 }
