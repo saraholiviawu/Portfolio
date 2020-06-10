@@ -378,9 +378,10 @@ h2 p {
 }
 
 #map {
-  height: 500px;
-  width: 500px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    height: 500px;
+    width: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
+
