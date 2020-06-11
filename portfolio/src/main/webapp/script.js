@@ -72,8 +72,8 @@ function createMapFunction() {
   window.initMap = function() {
     const map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084},
-      zoom: 16,
+      {center: {lat: -34.397, lng: 150.644},
+      zoom: 10,
       styles: [
         {elementType: 'geometry', stylers: [{color: colors.color1}]},
         {elementType: 'labels.text.stroke', stylers: [{color: colors.color1}]},
@@ -153,8 +153,14 @@ function createMapFunction() {
           elementType: 'labels.text.stroke',
           stylers: [{color: colors.color12}]
         }
-      ]
-      });
+      ]}
+    );
+
+    var geocoder = new google.maps.Geocoder();
+
+    document.getElementById('submit').addEventListener('click', function() {
+      geocodeAddress(geocoder, map);
+    });
 
     // Create an info window
     var contentStrTrexMarker = '<div id="content-trex-marker">' +
@@ -177,6 +183,21 @@ function createMapFunction() {
     });
   };
   document.head.appendChild(script);
+}
+
+function geocodeAddress(geocoder, resultsMap) {
+  var address = document.getElementById('address').value;
+  geocoder.geocode({'address' : address}, function(results, status) {
+    if (status === 'OK') {
+      resultsMap.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+        map : resultsMap,
+        position: results[0].geometry.location,
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
 }
 
 function commentFunction(showComments) {
