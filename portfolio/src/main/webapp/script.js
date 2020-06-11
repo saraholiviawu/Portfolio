@@ -158,8 +158,8 @@ function createMapFunction() {
     );
 
     var geocoder = new google.maps.Geocoder();
-    function callGeocodeAddress(address) {
-      geocodeAddress(geocoder, map, address);
+    function callGeocodeAddress(address, userName) {
+      geocodeAddress(geocoder, map, address, userName);
       console.log("successfully called callGeocodeAddress");
     }
     // Allow for call to nested function
@@ -168,7 +168,7 @@ function createMapFunction() {
     // Create an info window
     var contentStrTrexMarker = '<div id="content-trex-marker">' +
       '<div id="site-notice">' +
-      '<h1 id="first-heading" class="first-heading">Stan the T-rex</h1>' +
+      '<h2 id="first-heading" class="first-heading">Stan the T-rex</h2>' +
       '<div id="body-content">' +
       '<p>This is the marker for Stan the T-rex!</p>';
 
@@ -188,14 +188,35 @@ function createMapFunction() {
   document.head.appendChild(script);
 }
 
-function geocodeAddress(geocoder, resultsMap, address) {
-//   var address = document.getElementById('address').value;
+function geocodeAddress(geocoder, resultsMap, address, userName) {
   geocoder.geocode({'address' : address}, function(results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
+      var contentStr = '<div class="content-marker">' +
+        '<h2 class="first-heading">' + userName + '</h2>' +
+        '<div class="body-content">' +
+        '<p>I\'m commenting from '+ address + '!</p>';
+      
+      var infowindow = new google.maps.InfoWindow({
+        content : contentStr
+      });
+
       var marker = new google.maps.Marker({
         map : resultsMap,
         position: results[0].geometry.location,
+      });
+      // If user clicks on marker, an info window will pop up displaying user name and address
+      // If user clicks on a marker with an info window opened, window will close.
+      var clickedMarker = false;
+      marker.addListener('click', function() {
+        console
+        if (clickedMarker == false) {
+          infowindow.open(map, marker);
+          clickedMarker = true;
+        } else {
+          infowindow.close(map, marker);
+          clickedMarker = false;
+        }
       });
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
@@ -215,7 +236,7 @@ function commentFunction(showComments) {
     const commentListElement = document.getElementById('history');
     comments.forEach((comment) => {
         commentListElement.appendChild(createCommentElement(comment));
-        createMapFunction.callGeocodeAddress(comment.address);
+        createMapFunction.callGeocodeAddress(comment.address, comment.name);
     });
   });
 }
