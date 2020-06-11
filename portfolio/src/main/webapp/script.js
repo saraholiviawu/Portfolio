@@ -44,8 +44,24 @@ function onloadFunction() {
     createMapFunction();
 }
 
-/** Initializes a map and adds it to the page */
-// document.addEventListener('DOMContentLoaded', function () {
+// Store colors in a dictionary
+var colors = {
+  "color1" : "#242f3e", // Dark blue
+  "color2" : "#746855", // Neutral brown
+  "color3" : "#d59563", // Muted orange
+  "color4" : "#263c3f", // Blue black
+  "color5" : "#6b9a76", // Muted green
+  "color6" : "#38414e", // Dark gray-blue
+  "color7" : "#212a37", // Darker gray-blue
+  "color8" : "#9ca5b3", // Murky light blue
+  "color9" : "#1f2835", // Even darker gray-blue
+  "color10" : "f3d19c", // Creamy orange
+  "color11" : "#2f3948", // Another gray-blue
+  "color12" : "#17263c", // More dark blue of the gray-blue
+  "color13" : "#515c6d", //  Muted medium dark blue
+  }
+
+// Initializes a map and adds it to the page 
 function createMapFunction() {
   var mapKey = config.MAP_KEY;
   console.log(config.MAP_KEY);
@@ -59,88 +75,88 @@ function createMapFunction() {
       {center: {lat: 37.422, lng: -122.084},
       zoom: 16,
       styles: [
-        {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-        {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-        {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+        {elementType: 'geometry', stylers: [{color: colors.color1}]},
+        {elementType: 'labels.text.stroke', stylers: [{color: colors.color1}]},
+        {elementType: 'labels.text.fill', stylers: [{color: colors.color2}]},
         {
           featureType: 'administrative.locality',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#d59563'}]
+          stylers: [{color: colors.color3}]
         },
         {
           featureType: 'poi',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#d59563'}]
+          stylers: [{color: colors.color3}]
         },
         {
           featureType: 'poi.park',
           elementType: 'geometry',
-          stylers: [{color: '#263c3f'}]
+          stylers: [{color: colors.color4}]
         },
         {
           featureType: 'poi.park',
           elementType: 'labels.text.fill',
-            stylers: [{color: '#6b9a76'}]
+            stylers: [{color: colors.color5}]
         },
         {
           featureType: 'road',
           elementType: 'geometry',
-          stylers: [{color: '#38414e'}]
+          stylers: [{color: colors.color6}]
         },
         {
           featureType: 'road',
           elementType: 'geometry.stroke',
-          stylers: [{color: '#212a37'}]
+          stylers: [{color: colors.color7}]
         },
         {
             featureType: 'road',
             elementType: 'labels.text.fill',
-            stylers: [{color: '#9ca5b3'}]
+            stylers: [{color: colors.color8}]
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry',
-          stylers: [{color: '#746855'}]
+          stylers: [{color: colors.color2}]
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry.stroke',
-          stylers: [{color: '#1f2835'}]
+          stylers: [{color: colors.color9}]
         },
         {
           featureType: 'road.highway',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#f3d19c'}]
+          stylers: [{color: colors.color10}]
         },
         {
           featureType: 'transit',
           elementType: 'geometry',
-          stylers: [{color: '#2f3948'}]
+          stylers: [{color: colors.color11}]
         },
         {
           featureType: 'transit.station',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#d59563'}]
+          stylers: [{color: colors.color3}]
         },
         {
           featureType: 'water',
           elementType: 'geometry',
-          stylers: [{color: '#17263c'}]
+          stylers: [{color: colors.color12}]
         },
         {
           featureType: 'water',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#515c6d'}]
+          stylers: [{color: colors.color13}]
         },
         {
           featureType: 'water',
           elementType: 'labels.text.stroke',
-          stylers: [{color: '#17263c'}]
+          stylers: [{color: colors.color12}]
         }
       ]
       });
 
-    /** Info window */
+    // Create an info window
     var contentStrTrexMarker = '<div id="content-trex-marker">' +
       '<div id="site-notice">' +
       '<h1 id="first-heading" class="first-heading">Stan the T-rex</h1>' +
@@ -183,7 +199,7 @@ function commentFunction(showComments) {
   });
 }
 
-/* Create a comment element */
+// Create a comment element
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
@@ -209,14 +225,7 @@ function createCommentElement(comment) {
   return commentElement;
 }
 
-/** Creates an <li> element containing text. */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
-}
-
-/** Tells the server to delete the task. */
+// Tells the server to delete the task.
 function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('id', comment.id);
