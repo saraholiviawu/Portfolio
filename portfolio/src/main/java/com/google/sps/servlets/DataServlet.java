@@ -39,22 +39,24 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    // Fill array with comments data. First query the database and sort in descending order for timestamp      
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-
+    
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
-      String name = (String) entity.getProperty("name");
+      String name = (String) entity.getProperty("name"); //Eventually replace with username stored in database
+      String email = (String) entity.getProperty("email");
+      String address = (String) entity.getProperty("address");
       String text = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      Comment singleComment = new Comment(id, name, text, timestamp);
+      Comment singleComment = new Comment(id, name, email, address, text, timestamp);
       comments.add(singleComment);
     }
-
+    // Get data from URL passed by comment.html
     int showComments = showCommentsStrToInt(request);
     System.out.println(showComments);
     // Ensure maxComments is not greater than the existing number of comments
@@ -72,6 +74,9 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(comments));
   }
 
+
+
+
   /** Returns the choice entered by the user, or -1 if the choice was invalid. */
   private int showCommentsStrToInt(HttpServletRequest request) {
     // Get the input from the form.
@@ -88,7 +93,7 @@ public class DataServlet extends HttpServlet {
     return showComments;
   }
 
-      /**
+    /**
    * @return the request parameter, or the default value if the parameter
    *         was not specified by the client
    */
@@ -103,12 +108,16 @@ public class DataServlet extends HttpServlet {
   public final class Comment {
     private final long id;
     private final String name;
+    private final String email;
+    private final String address;
     private final String text;
     private final long timestamp;
 
-    public Comment(long id, String name, String text, long timestamp) {
+    public Comment(long id, String name, String email, String address, String text, long timestamp) {
       this.id = id;
       this.name = name;
+      this.email = email;
+      this.address = address;
       this.text = text;
       this.timestamp = timestamp;
     }

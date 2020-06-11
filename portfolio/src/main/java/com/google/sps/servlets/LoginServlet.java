@@ -32,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-  private String urlToRedirectToAfterUserLogsIn = "/login";
-  private String urlToRedirectToAfterUserLogsOut = "/login";
+  private String urlToRedirectToAfterUserLogsIn = "/comments.html";
+  private String urlToRedirectToAfterUserLogsOut = "/comments.html";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,7 +47,6 @@ public class LoginServlet extends HttpServlet {
       response.getWriter().println("<p>Hello " + userEmail + "!</p>");
       response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
-      String urlToRedirectToAfterUserLogsIn = "/login";
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsOut);
 
       response.getWriter().println("<p>Hello stranger.</p>");

@@ -42,6 +42,7 @@ function randomizeImage() {
 function onloadFunction() {
     commentFunction('5');
     createMapFunction();
+    console.log("Testing onload()")
 }
 
 // Store colors in a dictionary
@@ -72,8 +73,8 @@ function createMapFunction() {
   window.initMap = function() {
     const map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: -34.397, lng: 150.644},
-      zoom: 10,
+      {center: {lat: 37.0902, lng: -95.7129},
+      zoom: 2,
       styles: [
         {elementType: 'geometry', stylers: [{color: colors.color1}]},
         {elementType: 'labels.text.stroke', stylers: [{color: colors.color1}]},
@@ -157,10 +158,12 @@ function createMapFunction() {
     );
 
     var geocoder = new google.maps.Geocoder();
-
-    document.getElementById('submit').addEventListener('click', function() {
-      geocodeAddress(geocoder, map);
-    });
+    function callGeocodeAddress(address) {
+      geocodeAddress(geocoder, map, address);
+      console.log("successfully called callGeocodeAddress");
+    }
+    // Allow for call to nested function
+    createMapFunction.callGeocodeAddress = callGeocodeAddress;
 
     // Create an info window
     var contentStrTrexMarker = '<div id="content-trex-marker">' +
@@ -185,8 +188,8 @@ function createMapFunction() {
   document.head.appendChild(script);
 }
 
-function geocodeAddress(geocoder, resultsMap) {
-  var address = document.getElementById('address').value;
+function geocodeAddress(geocoder, resultsMap, address) {
+//   var address = document.getElementById('address').value;
   geocoder.geocode({'address' : address}, function(results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
@@ -201,21 +204,18 @@ function geocodeAddress(geocoder, resultsMap) {
 }
 
 function commentFunction(showComments) {
-  
-  // Check if user is logged in. If so, unhide the form. If user not logged in, display a login link.
-  fetch('/login')
-  .then(response => response.json())
 
   // Clear out existing children
   document.getElementById('history').innerHTML = "";
 
   // If user is logged in
-  fetch('/data?show-comments='+showComments)  // sends a request to /my-data-url
+  fetch('/data?show-comments='+showComments)  //
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     const commentListElement = document.getElementById('history');
     comments.forEach((comment) => {
         commentListElement.appendChild(createCommentElement(comment));
+        createMapFunction.callGeocodeAddress(comment.address);
     });
   });
 }
@@ -227,6 +227,12 @@ function createCommentElement(comment) {
 
   const nameElement = document.createElement('h4');
   nameElement.innerText = comment.name;
+
+  const emailElement = document.createElement('h3');
+  emailElement.innerText = comment.email;
+
+  const addressElement = document.createElement('p');
+  addressElement.innerText = comment.address;
 
   const textElement = document.createElement('p');
   textElement.innerText = comment.text;
@@ -241,6 +247,8 @@ function createCommentElement(comment) {
   });
   
   commentElement.appendChild(nameElement);
+  commentElement.appendChild(emailElement);
+  commentElement.appendChild(addressElement);
   commentElement.appendChild(textElement);
   commentElement.appendChild(deleteButtonElement);
   return commentElement;

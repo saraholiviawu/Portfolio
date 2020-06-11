@@ -17,7 +17,10 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,16 +30,33 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/new-comment")
 public class AddCommentServlet extends HttpServlet {
 
+  private String urlToRedirectToAfter = "/comments.html";
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
+    UserService userService = UserServiceFactory.getUserService();
+    response.setContentType("text/html");
+    // Only logged-in users can post messages
+    if (!userService.isUserLoggedIn()) {
+      String loginUrl = userService.createLoginURL(urlToRedirectToAfter);
+      response.sendRedirect(loginUrl);
+      return;
+    }
+    String logoutUrl = userService.createLogoutURL(urlToRedirectToAfter);
+    // response.getWriter().println("<p>Hello " + userService.getCurrentUser().getEmail() + "!</p>"); <!-- COME BACK TO FIX -->
+    // response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+    // Get the input from the form and login
     String name = getParameter(request, "namebox", "");
+    String email = userService.getCurrentUser().getEmail();
+    String address = getParameter(request, "address", "");
     String text = getParameter(request, "textbox", "");
     long timestamp = System.currentTimeMillis();
 
     // Store input in datastore.
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("name", name);
+    commentEntity.setProperty("email", email);
+    commentEntity.setProperty("address", address);
     commentEntity.setProperty("text", text);
     commentEntity.setProperty("timestamp", timestamp);
 
