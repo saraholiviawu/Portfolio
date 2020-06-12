@@ -42,6 +42,7 @@ function randomizeImage() {
 function onloadFunction() {
     commentFunction('5');
     createMapFunction();
+    console.log("Testing onload()")
 }
 
 // Store colors in a dictionary
@@ -72,8 +73,8 @@ function createMapFunction() {
   window.initMap = function() {
     const map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: -34.397, lng: 150.644},
-      zoom: 10,
+      {center: {lat: 37.0902, lng: -95.7129},
+      zoom: 2,
       styles: [
         {elementType: 'geometry', stylers: [{color: colors.color1}]},
         {elementType: 'labels.text.stroke', stylers: [{color: colors.color1}]},
@@ -157,15 +158,17 @@ function createMapFunction() {
     );
 
     var geocoder = new google.maps.Geocoder();
-
-    document.getElementById('submit').addEventListener('click', function() {
-      geocodeAddress(geocoder, map);
-    });
+    function callGeocodeAddress(address, userName) {
+      geocodeAddress(geocoder, map, address, userName);
+      console.log("successfully called callGeocodeAddress");
+    }
+    // Allow for call to nested function
+    createMapFunction.callGeocodeAddress = callGeocodeAddress;
 
     // Create an info window
     var contentStrTrexMarker = '<div id="content-trex-marker">' +
       '<div id="site-notice">' +
-      '<h1 id="first-heading" class="first-heading">Stan the T-rex</h1>' +
+      '<h2 id="first-heading" class="first-heading">Stan the T-rex</h2>' +
       '<div id="body-content">' +
       '<p>This is the marker for Stan the T-rex!</p>';
 
@@ -185,14 +188,35 @@ function createMapFunction() {
   document.head.appendChild(script);
 }
 
-function geocodeAddress(geocoder, resultsMap) {
-  var address = document.getElementById('address').value;
+function geocodeAddress(geocoder, resultsMap, address, userName) {
   geocoder.geocode({'address' : address}, function(results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
+      var contentStr = '<div class="content-marker">' +
+        '<h2 class="first-heading">' + userName + '</h2>' +
+        '<div class="body-content">' +
+        '<p>I\'m commenting from '+ address + '!</p>';
+      
+      var infowindow = new google.maps.InfoWindow({
+        content : contentStr
+      });
+
       var marker = new google.maps.Marker({
         map : resultsMap,
         position: results[0].geometry.location,
+      });
+      // If user clicks on marker, an info window will pop up displaying user name and address
+      // If user clicks on a marker with an info window opened, window will close.
+      var clickedMarker = false;
+      marker.addListener('click', function() {
+        console
+        if (clickedMarker == false) {
+          infowindow.open(map, marker);
+          clickedMarker = true;
+        } else {
+          infowindow.close(map, marker);
+          clickedMarker = false;
+        }
       });
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
@@ -201,21 +225,18 @@ function geocodeAddress(geocoder, resultsMap) {
 }
 
 function commentFunction(showComments) {
-  
-  // Check if user is logged in. If so, unhide the form. If user not logged in, display a login link.
-  fetch('/login')
-  .then(response => response.json())
 
   // Clear out existing children
   document.getElementById('history').innerHTML = "";
 
   // If user is logged in
-  fetch('/data?show-comments='+showComments)  // sends a request to /my-data-url
+  fetch('/data?show-comments='+showComments)  //
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     const commentListElement = document.getElementById('history');
     comments.forEach((comment) => {
         commentListElement.appendChild(createCommentElement(comment));
+        createMapFunction.callGeocodeAddress(comment.address, comment.name);
     });
   });
 }
@@ -227,6 +248,12 @@ function createCommentElement(comment) {
 
   const nameElement = document.createElement('h4');
   nameElement.innerText = comment.name;
+
+  const emailElement = document.createElement('h3');
+  emailElement.innerText = comment.email;
+
+  const addressElement = document.createElement('p');
+  addressElement.innerText = comment.address;
 
   const textElement = document.createElement('p');
   textElement.innerText = comment.text;
@@ -241,6 +268,8 @@ function createCommentElement(comment) {
   });
   
   commentElement.appendChild(nameElement);
+  commentElement.appendChild(emailElement);
+  commentElement.appendChild(addressElement);
   commentElement.appendChild(textElement);
   commentElement.appendChild(deleteButtonElement);
   return commentElement;
