@@ -225,7 +225,6 @@ function checkLogin() {
       loginWrapperElement.href = userInfo.loginUrl;
       document.getElementById('user-form').style.display = "none";
     }
-    // loginWrapperElement.appendChild(loginWrapperElement);
     return loginWrapperElement;
   });
 }
