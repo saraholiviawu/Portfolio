@@ -56,16 +56,19 @@
         <h1>Comments</h1> <!-- Come back later to update number of comments--><br/>
         <h2>I would love to hear your thoughts, feedback, or any comments! :)</h2><br/>
 
-
-        <form class="form-wrapper" action="/new-comment" method="POST">
-          <label for="namebox">Name:</label>
-          <textarea name="namebox" placeholder="Sarah Wu"></textarea><br/><br/>
-          <label for="address">Commenting from:</label>
-          <textarea id="address" name="address" placeholder="Sydney, NSW"></textarea><br/><br/> <!--COME BACK HERE -->
-          <label for="textbox">Comment:</label>
-          <textarea name="textbox" placeholder="Commenting publicly..."></textarea><br/><br/>
-          <input id="submit" type="submit" value="Add comment"></button>
-        </form><br/>
+        <div class="form-container" id="form-container">
+          <form class="form-wrapper" id="user-form" action="/new-comment" method="POST">
+            <label for="namebox">Name:</label>
+            <textarea name="namebox" placeholder="Sarah Wu"></textarea><br/><br/>
+            <label for="address">Commenting from:</label>
+            <textarea id="address" name="address" placeholder="Sydney, NSW"></textarea><br/><br/> <!--COME BACK HERE -->
+            <label for="textbox">Comment:</label>
+            <textarea name="textbox" placeholder="Commenting publicly..."></textarea><br/><br/>
+            <div id="submit-wrapper"></div> <!-- Currently disabled because not input keyword-->
+            <input id="submit" type="submit" value="Add comment"></input>
+          </form><br/>
+        </div>
+        <a id="login-wrapper">Log in</a> 
 
         <form class="form-wrapper" action="/data" method="GET">
           <label for="show-comments">Display max comments:</label>

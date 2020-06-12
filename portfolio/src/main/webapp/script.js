@@ -42,6 +42,7 @@ function randomizeImage() {
 function onloadFunction() {
     commentFunction('5');
     createMapFunction();
+    checkLogin();
     console.log("Testing onload()")
 }
 
@@ -158,44 +159,26 @@ function createMapFunction() {
     );
 
     var geocoder = new google.maps.Geocoder();
-    function callGeocodeAddress(address, userName) {
-      geocodeAddress(geocoder, map, address, userName);
+    function callGeocodeAddress(address, userName, userText) {
+      geocodeAddress(geocoder, map, address, userName, userText);
       console.log("successfully called callGeocodeAddress");
     }
     // Allow for call to nested function
     createMapFunction.callGeocodeAddress = callGeocodeAddress;
 
-    // Create an info window
-    var contentStrTrexMarker = '<div id="content-trex-marker">' +
-      '<div id="site-notice">' +
-      '<h2 id="first-heading" class="first-heading">Stan the T-rex</h2>' +
-      '<div id="body-content">' +
-      '<p>This is the marker for Stan the T-rex!</p>';
-
-    var infowindow = new google.maps.InfoWindow({
-      content: contentStrTrexMarker
-    });
-
-    const trexMarker = new google.maps.Marker({
-      position: {lat: 37.421903, lng: -122.084674},
-      map: map,
-      title: 'Stan the T-rex'
-    });
-    trexMarker.addListener('click', function() {
-      infowindow.open(map, trexMarker);
-    });
   };
   document.head.appendChild(script);
 }
 
-function geocodeAddress(geocoder, resultsMap, address, userName) {
+function geocodeAddress(geocoder, resultsMap, address, userName, userText) {
   geocoder.geocode({'address' : address}, function(results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
       var contentStr = '<div class="content-marker">' +
         '<h2 class="first-heading">' + userName + '</h2>' +
         '<div class="body-content">' +
-        '<p>I\'m commenting from '+ address + '!</p>';
+        '<p>'+ address + '</p></br>' +
+        '<p>' + userText + '</p></div>';
       
       var infowindow = new google.maps.InfoWindow({
         content : contentStr
@@ -223,6 +206,29 @@ function geocodeAddress(geocoder, resultsMap, address, userName) {
     }
   });
 }
+var currUserEmail = "";
+// Function checks whether user is logged in when body loads
+function checkLogin() {
+  fetch('/login')
+  .then(response => response.json()) // parses the response as JSON
+  .then((userInfo) => { // now we can reference the fields in myObject!
+    const loginWrapperElement = document.getElementById('login-wrapper');
+    loginWrapperElement.innerHTML = "";
+    if (userInfo.isUserLoggedIn == true) {
+      // If user is logged in, provide a log out URl underneath the comment form
+      loginWrapperElement.innerText = 'Log out';
+      loginWrapperElement.href = userInfo.logoutUrl;
+      document.getElementById('user-form').style.display = "block";
+      currUserEmail = userInfo.currUserEmail;
+    } else {
+      loginWrapperElement.innerText = 'Log in';
+      loginWrapperElement.href = userInfo.loginUrl;
+      document.getElementById('user-form').style.display = "none";
+    }
+    // loginWrapperElement.appendChild(loginWrapperElement);
+    return loginWrapperElement;
+  });
+}
 
 function commentFunction(showComments) {
 
@@ -235,14 +241,15 @@ function commentFunction(showComments) {
   .then((comments) => { // now we can reference the fields in myObject!
     const commentListElement = document.getElementById('history');
     comments.forEach((comment) => {
-        commentListElement.appendChild(createCommentElement(comment));
+        commentListElement.appendChild(createCommentElement(comment, currUserEmail));
         createMapFunction.callGeocodeAddress(comment.address, comment.name);
     });
   });
 }
 
 // Create a comment element
-function createCommentElement(comment) {
+function createCommentElement(comment, currUserEmail) {
+
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
@@ -257,21 +264,23 @@ function createCommentElement(comment) {
 
   const textElement = document.createElement('p');
   textElement.innerText = comment.text;
-  
-  const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.innerText = 'Delete';
-  deleteButtonElement.addEventListener('click', () => {
-    deleteComment(comment);
 
-    // Remove the task from the DOM.
-    commentElement.remove();
-  });
-  
   commentElement.appendChild(nameElement);
   commentElement.appendChild(emailElement);
   commentElement.appendChild(addressElement);
   commentElement.appendChild(textElement);
-  commentElement.appendChild(deleteButtonElement);
+
+  if (currUserEmail == comment.email) {
+    const deleteButtonElement = document.createElement('button');
+    deleteButtonElement.innerText = 'Delete';
+    deleteButtonElement.addEventListener('click', () => {
+    deleteComment(comment);
+    // Remove the task from the DOM.
+      commentElement.remove();
+    });
+    commentElement.appendChild(deleteButtonElement);
+  }
+  
   return commentElement;
 }
 

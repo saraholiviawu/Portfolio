@@ -30,22 +30,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/new-comment")
 public class AddCommentServlet extends HttpServlet {
 
-  private String urlToRedirectToAfter = "/comments.html";
-
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     response.setContentType("text/html");
-    // Only logged-in users can post messages
-    if (!userService.isUserLoggedIn()) {
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfter);
-      response.sendRedirect(loginUrl);
-      return;
-    }
-    String logoutUrl = userService.createLogoutURL(urlToRedirectToAfter);
-    // response.getWriter().println("<p>Hello " + userService.getCurrentUser().getEmail() + "!</p>"); <!-- COME BACK TO FIX -->
-    // response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
-    // Get the input from the form and login
+
     String name = getParameter(request, "namebox", "");
     String email = userService.getCurrentUser().getEmail();
     String address = getParameter(request, "address", "");

@@ -17,40 +17,73 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+// Servlet returns True when user is logged in and generates a logoutUrl 
+// Servlet returns False when user is NOT logged in and generates a loginUrl
+// Use Gson
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+  private String urlToRedirectToAfter = "/comments.html";
 
-  private String urlToRedirectToAfterUserLogsIn = "/comments.html";
-  private String urlToRedirectToAfterUserLogsOut = "/comments.html";
-
-  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
-
+    System.out.print("called doGet");
     UserService userService = UserServiceFactory.getUserService();
+    boolean isUserLoggedIn = false;
+    String logoutUrl = "";
+    String loginUrl = "";
+    String currUserEmail = "";
     if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      System.out.print("user is logged in");
+      isUserLoggedIn = true;
+      System.out.print(isUserLoggedIn);
+      logoutUrl = userService.createLogoutURL(urlToRedirectToAfter);
+      currUserEmail = userService.getCurrentUser().getEmail();
     } else {
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsOut);
+      System.out.print("user is not logged in");
+      isUserLoggedIn = false;
+      loginUrl = userService.createLoginURL(urlToRedirectToAfter);
+    }
 
-      response.getWriter().println("<p>Hello stranger.</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+    UserInfo userInfo = new UserInfo(isUserLoggedIn, logoutUrl, loginUrl, currUserEmail);
+
+
+    Gson gson = new Gson();
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(userInfo));
+  }
+
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
+
+  public final class UserInfo {
+    private final boolean isUserLoggedIn;
+    private final String logoutUrl;
+    private final String loginUrl;
+    private final String currUserEmail;
+
+    public UserInfo(boolean isUserLoggedIn, String logoutUrl, String loginUrl, String currUserEmail) {
+      this.isUserLoggedIn = isUserLoggedIn;
+      this.logoutUrl = logoutUrl;
+      this.loginUrl = loginUrl;
+      this.currUserEmail = currUserEmail;
     }
   }
 
