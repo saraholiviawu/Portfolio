@@ -59,7 +59,6 @@ public class LoginServlet extends HttpServlet {
 
     UserInfo userInfo = new UserInfo(isUserLoggedIn, logoutUrl, loginUrl, currUserEmail);
 
-
     Gson gson = new Gson();
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(userInfo));

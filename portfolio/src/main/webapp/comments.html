@@ -5,12 +5,15 @@
     <title>Sarah Wu</title>
     <link href="https://fonts.googleapis.com/css2?family=Yrsa:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script type='text/javascript' src='config.js'></script>
+    <script type='text/javascript' src="maps_script.js"></script>
     <script type='text/javascript' src="script.js"></script>
 
     <link rel="stylesheet" href="style.css">
     <!-- font-family: 'Cormorant', serif; -->
     <!-- font-family: 'Yrsa', serif; -->
+    <!-- font-family: 'Poppins', sans-serif; -->
   </head>
   <body onload="onloadFunction()">
     <div class="container">
@@ -58,32 +61,38 @@
 
         <div class="form-container" id="form-container">
           <form class="form-wrapper" id="user-form" action="/new-comment" method="POST">
-            <label for="namebox">Name:</label>
-            <textarea name="namebox" placeholder="Sarah Wu"></textarea><br/><br/>
-            <label for="address">Commenting from:</label>
-            <textarea id="address" name="address" placeholder="Sydney, NSW"></textarea><br/><br/> <!--COME BACK HERE -->
-            <label for="textbox">Comment:</label>
-            <textarea name="textbox" placeholder="Commenting publicly..."></textarea><br/><br/>
-            <div id="submit-wrapper"></div> <!-- Currently disabled because not input keyword-->
-            <input id="submit" type="submit" value="Add comment"></input>
+            </br></br><textarea id="namebox" name="namebox" placeholder="Name"></textarea><br/><br/>
+            <textarea id="address" name="address" placeholder="City, State"></textarea><br/><br/> 
+            <textarea id="textbox" name="textbox" placeholder="Comment"></textarea><br/><br/>
+            <input id="submit" type="submit" value="Post"></input>
           </form><br/>
         </div>
-        <a id="login-wrapper">Log in</a> 
+        <div class="login-wrapper">
+          <p id="login-link-pretext"></p>
+          <a id="login-link"></a></br></br>
+        </div>
 
-        <form class="form-wrapper" action="/data" method="GET">
-          <label for="show-comments">Display max comments:</label>
-          <select name="show-comments" id="show-comments" onchange="commentFunction(this.value)">
-            <option type="number" value="5">5</option>
-            <option type="number" value="10">10</option>
-            <option type="number" value="15">15</option>
-          </select>
-        </form><br/>
-        <!-- Comment history -->
-        <ul id="history"></ul><br/><br/>
+        <div class="user-comments-display">
+      
+          <div class="map-wrapper">
+            <div id="map"></div><br/><br/>
+          </div>
+
+          <div class="form-select-container">
+            <form class="form-select-wrapper" action="/data" method="GET">
+              <label for="show-comments">Display max comments:</label>
+              <select name="show-comments" id="show-comments" onchange="commentFunction(this.value)">
+                <option type="number" value="5">5</option>
+                <option type="number" value="10">10</option>
+                <option type="number" value="15">15</option>
+              </select>
+            </form><br/>
+          <!-- Comment history -->
+            <ul id="history"></ul><br/><br/>
+          </div>
+
+        </div>      
       </div>
-
-      <div class-"map-wrapper">
-        <div id="map"></div><br/><br/>
     </div>
   </body>
 </html>
