@@ -60,19 +60,22 @@ function checkLogin() {
       loginWrapperElement.innerText = 'Log out';
       loginWrapperElement.href = userInfo.logoutUrl;
       document.getElementById('user-form').style.display = "block";
-      commentFunction('5');
+      numberOfCommentsToShow(5);
     } else {
       loginLinkPretext.innerText = "Can't see the form? "
       loginWrapperElement.innerText = 'Log in';
       loginWrapperElement.href = userInfo.loginUrl;
       document.getElementById('user-form').style.display = "none";
-      commentFunction('5');
+      numberOfCommentsToShow(5);
     }
     return loginWrapperElement;
   });
 }
 
-function commentFunction(showComments) {
+function numberOfCommentsToShow(showComments) {
+  if (typeof showComments === 'number') {
+      showComments = showComments.toString();
+  }
 
   // Clear out existing children
   document.getElementById('history').innerHTML = "";
