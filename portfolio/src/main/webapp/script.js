@@ -60,28 +60,28 @@ function checkLogin() {
       loginWrapperElement.innerText = 'Log out';
       loginWrapperElement.href = userInfo.logoutUrl;
       document.getElementById('user-form').style.display = "block";
-      numberOfCommentsToShow(5);
+      commentFunction(5);
     } else {
       loginLinkPretext.innerText = "Can't see the form? "
       loginWrapperElement.innerText = 'Log in';
       loginWrapperElement.href = userInfo.loginUrl;
       document.getElementById('user-form').style.display = "none";
-      numberOfCommentsToShow(5);
+      commentFunction(5);
     }
     return loginWrapperElement;
   });
 }
 
-function numberOfCommentsToShow(showComments) {
-  if (typeof showComments === 'number') {
-      showComments = showComments.toString();
+function commentFunction(numberOfCommentsToShow) {
+  if (typeof numberOfCommentsToShow === 'number') {
+      numberOfCommentsToShow = numberOfCommentsToShow.toString();
   }
 
   // Clear out existing children
   document.getElementById('history').innerHTML = "";
 
   // If user is logged in
-  fetch('/data?show-comments='+showComments)  //
+  fetch('/data?show-comments='+numberOfCommentsToShow)  //
   .then(response => response.json()) // parses the response as JSON
   .then((comments) => { // now we can reference the fields in myObject!
     const commentListElement = document.getElementById('history');
@@ -120,6 +120,7 @@ function createCommentElement(comment, currUserEmail) {
     });
     buttonTextSpanElement.appendChild(deleteButtonElement);
   }
+  
 
   const textElement = document.createElement('p');
   textElement.innerText = comment.text;
