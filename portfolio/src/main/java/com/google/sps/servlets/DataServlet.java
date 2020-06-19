@@ -58,7 +58,6 @@ public class DataServlet extends HttpServlet {
     }
     // Get data from URL passed by comment.html
     int showComments = showCommentsStrToInt(request);
-    System.out.println(showComments);
     // Ensure maxComments is not greater than the existing number of comments
     if (comments.size() < showComments) {
      showComments = comments.size();
@@ -74,14 +73,10 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(comments));
   }
 
-
-
-
   /** Returns the choice entered by the user, or -1 if the choice was invalid. */
   private int showCommentsStrToInt(HttpServletRequest request) {
     // Get the input from the form.
     String showCommentsString = getParameter(request, "show-comments", "");
-    // System.out.println(showCommentsString);
     // Convert the input to an int.
     int showComments;
     try {

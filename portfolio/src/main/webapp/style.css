@@ -1,11 +1,34 @@
 /* Applies across all pages */
 * {
-    margin: 0;
     padding: 0;
+    margin: 0;
+}
+
+:root {
+    --main-bg-color: black;
+    --main-text-color: white;
+    --main-button-border-color: white;
+    --main-button-text-color: white;
+    --main-button-bg-color: black;
+    --hover-button-bg-color: white;
+    --hover-button-text-color: black;
+    --default-underline-color: transparent;
+    --hover-underline-color: #a4adb5;
+    --box-shadow-color: #212f44;
+    --navbar-border-bottom-color: #f5031900;
+    --navbar-media-border-bottom-color: transparent;
+    --navbar-hover-border-bottom-color: #a4adb5;
+    --comment-border-bottom-color: ##464646;
+    --muted-text-color: #a8a8a8;
+    --muted-button-text-color: #a8a8a8;
+    --muted-button-outline-color: #a8a8a8;
+    --comment-form-border-bottom-color: #464646;
+    --placeholder-text-color: #cacaca;
+    --map-text-color: black;
 }
 
 html {
-    background-color: black;
+    background-color: var(--main-bg-color);
 }
 
 h1 {
@@ -30,52 +53,51 @@ h2 p {
 }
 
 .welcome-img-text-wrapper {
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    color: white;
+    color: var(--main-text-color);
     height: auto;
     margin-top: 250px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
 }
 
 .welcome-text h1 {
-    text-align: center;
-    font-size: 9vw;
     font-family: 'Crimson Text', serif;
     font-weight: 600;
+    font-size: 9vw;
+    text-align: center;
 }
 
 .welcome-text h2 {
     text-align: center;
+    font-size: 2.5vw;
     font-weight: 100;
-    font-size: 2.5vw;;
     padding-bottom: 2.5vw;
 }
 
 .welcome-img-text-wrapper a {
-    font-size: 1.3em;
-    margin-top: 20px;
     font-size: 2.5vw;
+    margin-top: 20px;
 }
 
 .welcome-button {
+    border: 5.5px solid var(--main-button-border-color);
+    color: var(--main-button-text-color);
     display: inline-block;
-    color: #ffffff;
-    width: 15vw;
-    font-weight: bolder;
-    padding: 1vw;
-    border: 5.5px solid #fff;
-    outline: none;
-    text-decoration: none;
     font-size: 2vw;
+    font-weight: bolder;
+    outline: none;
+    padding: 1vw;
+    text-decoration: none;
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    width: 15vw;
 }
 
 .welcome-button:hover, .welcome-button:active {
-    background-color: #fff;
+    background-color: var(--hover-button-bg-color);
+    border: 5.5px solid var(--main-button-border-color);
     color: #8b665d;
     transition: background-color 0.2s ease-in, color 0.2s ease-in;
-    border: 5.5px solid #fff;
 }
 
 .welcome-button:active {
@@ -83,18 +105,15 @@ h2 p {
 }
 
 /* Navigation bar */
-:root {
-    --main-color: rgb(21, 74, 154);
-}
 
 .navbar {
-    padding-top: 40px;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 20px;
+    color:var(--main-text-color);
     display: flex;
     justify-content: space-between;
-    color: white;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
 }
 
 .left-side {
@@ -117,35 +136,35 @@ h2 p {
 
 .navbar-link {
     height: 1 vh;
-    border-bottom: 1.5px solid #f5031900;
+    border-bottom: 1.5px solid var(--navbar-border-bottom-color);
     transition: border-bottom 0.5s; 
     
 }   
 
 .navbar-link a {
-    color: #fff;
+    color:var(--main-text-color);
     text-decoration: none;
     transition: color 0.5s;    
 }
 
 .home-link {
-    height: 1vh;;
-    border-bottom: 1.5px solid transparent;
+    border-bottom: 1.5px solid var(--navbar-media-border-bottom-color);
+    height: 1vh;
     transition: border-bottom 0.5s;
 }
 
 .home-link a {
-    color: #fff;
+    color: var(--main-text-color);
     text-decoration: none;
 } 
 .navbar-link:hover {
-    border-bottom: 1px solid #a4adb5;
+    border-bottom: 1px solid var(--navbar-hover-border-bottom-color);
 }
 
 /* WHO Page */
 
 .profile-wrapper > h1 {
-    color: #fff;
+    color: var(--main-text-color);
     font-size: 100px;
     text-align: center;
     font-family: 'Crimson Text', serif;
@@ -163,13 +182,13 @@ h2 p {
 }
 
 .profile-image img {
+    box-shadow: 25px 25px 0 var(--box-shadow-color);
     max-height: 600px;
     width: auto;
-    box-shadow: 25px 25px 0 #212f44;
 }
 
-.profile-content {;
-    color: #fff;
+.profile-content {
+    color: var(--main-text-color);
 }
 .profile-content h1 {
     font-size: 100px;
@@ -182,38 +201,36 @@ h2 p {
 /*GALLERY page */
 
 .gal-cover-container {
+    height: auto;
     text-align: center;
     position: absolute;
     width: 100%;
-    height: auto;
-    /* margin-top: 20px; */
 }
 
 .gal-cover-container > h1 {
+    color: var(--main-text-color);
     font-family: 'Crimson Text', serif;
     font-weight: 600;
-    color: #fff;
     font-size: 100px;
     text-align: center;
     padding: 30px;
 }
 
 .gal-cover-container h2 {
-    color: #fff;
+    color: var(--main-text-color);
     font-size: 30px;
-    text-align: center;
-    padding-bottom: 30px;
+    font-style: italic;
+    font-weight: 100;
     min-width: 50vw;
     max-width: 75vw;
-    margin:0 auto;
+    margin: 0 auto;
     margin-top: -17px;
     text-align: center;
-    font-weight:100;
-    font-style: italic;
+    padding-bottom: 30px;
 }
 
 #random-image-caption {
-    color: #fff;
+    color: var(--main-text-color);
     margin-top: 50px;
     font-size: 30px;
     font-weight: 100;
@@ -221,24 +238,24 @@ h2 p {
 }
 
 .button {
+    background-color: var(--main-button-bg-color);
+    border: 3px solid var(--main-button-border-color);
+    color: var(--main-button-text-color);
     display: inline-block;
-    color: #ffffff;
-    width: 250px;
-    font-weight: bold;
-    padding: 14px;
-    border: 3px solid #ffffff;
-    outline: none;
-    text-decoration: none;
     font-size: 38px;
-    background-color:#000;
-    transition: background-color 0.2s ease-out, color 0.2s ease-out; */
+    font-weight: bold;
+    outline: none;
+    padding: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    width: 250px;
 }
 
 .button:hover, .button:active {
-    background-color: #fff;
-    color: #000;
+    background-color: var(--hover-button-bg-color);
+    color: var(--hover-button-text-color);
     transition: background-color 0.2s ease-in, color 0.2s ease-in;
-    border: 3px solid #fff;
+    border: 3px solid var(--main-button-border-color);
 }
 
 .button:active {
@@ -271,30 +288,30 @@ h2 p {
 }
 
 .project-img-background {
-    height: 50vh;
-    width: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    height: 50vh;
+    width: 100%;
 }
 
 .project-img-text-wrapper {
-    position: absolute;
-    top: 0;
+    align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     height: 100%;
-    text-align: center;
+    justify-content: center;
     padding-left: 9vw;
     padding-right: 9vw;
+    position: absolute;
+    text-align: center;
+    top: 0;
 }
 
 .project-logo-wrapper img {
-    width: 95%;
     height: 110px;
     margin-bottom: 20px;
+    width: 95%;
 }
 
 .project-img-text-wrapper .project-subtitle {
@@ -305,9 +322,9 @@ h2 p {
 }
 
 .project-img-text-wrapper:hover .project-subtitle {
+    color: var(--main-text-color);
     font-size: 17px;
     font-weight:1 lighter;
-    color: #fff;
 }
 
 .project-img-darken {
@@ -316,10 +333,10 @@ h2 p {
 }
 
 .project-content-wrapper h1 {
+    color: var(--main-text-color);
     font-family: 'Crimson Text', serif;
-    font-weight: 600;
-    color: #fff;
     font-size: 100px;
+    font-weight: 600;
     text-align: center;
     padding: 30px;
 }
@@ -327,28 +344,27 @@ h2 p {
 /* COMMMENTS page */
 
 .comment-wrapper {
-    color: #fff;
-    text-align: center;
+    color: var(--main-text-color);
     font-family: 'Crimson Text', serif;
+    text-align: center;
 }
 
 .comment-wrapper h1 {
-    font-weight: 600;
-    color: #fff;
-    font-size: 100px;
     text-align: center;
+    color: var(--main-text-color);
+    font-weight: 600;;
+    font-size: 100px;
     padding: 30px;
 }
 
-.comment-wrapper h2 {
-    color: #fff;
+.comment-wrapper > h2:nth-of-type(1) {
+    color: var(--main-text-color);
     font-size: 30px;
     font-style: italic;
     font-weight:100;
-    padding-bottom: 30px;
     min-width: 50vw;
     max-width: 75vw;
-    margin:0 auto;
+    margin: 0 auto;
     margin-top: -17px;
     text-align: center;
 }
@@ -360,28 +376,180 @@ h2 p {
 .comment-wrapper h4 {
     font-family: 'Crimson Text', serif;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .comment-wrapper p {
-    justify-content: center;
-    color: #fff;
-    font-size: 22px
-}
-
-.form-wrapper {
-    font-size: 22px;
+    color: var(--main-text-color);
+    font-size: 18px;
 }
 
 .comment {
+    border-bottom: 1px solid var(--comment-form-border-bottom-color);
+    line-height: 25px;
+    margin: 10px;
+    text-align: left;
     padding: 10px;
+    width: 450px;
+}
+
+.comment span {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment span > span > p:before {
+    content: " ";
+    display: inline-block;
+    width: 6px;
+}
+
+
+.user-comments-display {
+    align-items: start;
+    column-gap: 50px;
+    display: grid;
+    grid-template-columns: 500px 400px;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+#history h4, p:nth-of-type(1) {
+    display: inline;
+}
+
+#history span > p:nth-of-type(1) {
+    color: var(--muted-text-color);
+}
+
+
+#history button {
+    background-color: var(--main-button-bg-color);
+    border: 2px solid var(--muted-button-outline-color);
+    color: var(--muted-button-text-color);
+    height: 25px;
+    font-family: 'Crimson Text', serif;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    width: 90px;
+}
+
+#history button:hover, #history button:active {
+    background-color: var(--hover-button-bg-color);
+    border: 2px solid var(--main-button-border-color);
+    color: var(--hover-button-text-color);
+    transition: background-color 0.2s ease-in, color 0.2s ease-in;
+}
+
+#history button:active {
+    transform: translateY(2px);
+}
+
+/* Continued in Comments page: Comment form area  */
+
+#namebox, #address, #textbox {
+    border: none;
+    background: none;
+    border-bottom: 2px solid var(--comment-form-border-bottom-color);
+    color: var(--main-text-color);
+    font-size: 22px;
+    font-family: 'Crimson Text', serif;
+    left: 0;
+    outline: none;
+    padding: 0.3rem 0.7rem;
+    padding-left: 20px;
+    padding-top: 7px;
+    position: relative;
+    resize: none;
+    transition: border-bottom 0.5s ease-out 0.2s;
+    width: 400px;
+}
+
+#namebox:focus, #address:focus, #textbox:focus {
+    border-bottom: 2px solid var(--main-text-color);
+    transition: border-bottom 0.5s;
+}
+
+#namebox, #address {
+    height: 28px;
+}
+
+#textbox {
+    height: 110px;
+}
+
+::placeholder {
+    color: var(--placeholder-text-color);
+}
+
+#submit {
+    background-color: var(--main-button-bg-color);
+    border: 2px solid var(--main-button-border-color);
+    color: var(--main-button-text-color);
+    height: 42px;
+    font-family: 'Crimson Text', serif;
+    font-size: 22px;
+    font-weight: bold;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    width: 400px;
+}
+
+#submit:hover, #submit:active {
+    background-color: var(--hover-button-bg-color);
+    border: 2px solid var(--main-button-border-color);
+    color: var(--hover-button-text-color);
+    transition: background-color 0.2s ease-in, color 0.2s ease-in;
+}
+
+#submit:active {
+    transform: translateY(2px);
+}
+
+.login-wrapper p, a {
+    display: inline;
+    word-wrap: break-word;
+}
+
+#login-link {
+    border-bottom: 1.5px solid var(--default-underline-color);
+    color: var(--main-text-color);
+    font-family: 'Crimson Text', serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: border-bottom 0.5s;
+}
+
+#login-link:hover {
+    border-bottom: 1px solid var(--navbar-hover-border-bottom-color);
+    transition: border-bottom 0.5s;
 }
 
 #map {
-    height: 500px;
-    width: 500px;
+    color: var(--map-text-color);
     display: block;
+    font-family: 'Crimson Text', serif;
+    font-size: 18px;
+    height: 500px;
     margin-left: auto;
     margin-right: auto;
+    width: 500px;
 }
 
+.form-select-wrapper {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.content-marker {
+    font-family: 'Crimson Text', serif;
+    font-size: 18px;
+}
+.content-marker h2, .content-marker p {
+    color: var(--map-text-color);
+}
+
+.content-marker h2 {
+    font-size: 20px;
+}
