@@ -33,18 +33,18 @@ public final class FindMeetingQuery {
       return Arrays.asList();
     }
 
-    // Get required attendees
+    // Get mandatory attendees
     Collection<String> attendees = request.getAttendees();
 
     // Get optional attendees
     Collection<String> optionalAttendees = request.getOptionalAttendees();
 
-    // If no attendees or optional are requested, return the whole day as a valid time range.
+    // If no mandatory or optional attendees are requested, return the whole day as a valid time range.
     if (attendees.size() == 0 && optionalAttendees.size() == 0) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
-    // If only attendees are requested, return available time ranges for mandatory attendees.
+    // If only mandatory attendees are requested, return available time ranges for mandatory attendees.
     if (optionalAttendees.size() == 0) {
       ArrayList<TimeRange> availableTimeRanges = returnAvailableTimeRanges(events, attendees, requestDuration);
       return availableTimeRanges;
@@ -73,7 +73,7 @@ public final class FindMeetingQuery {
     return busySortedTimeRanges;
   }
 
-  // Returns an ArrayList of TimeRanges that required attendees are busy for. Sorted by start time in ascending order.
+  // Returns an ArrayList of TimeRanges that attendees are busy for. Sorted by start time in ascending order.
   private ArrayList<TimeRange> getSortedBusyTimeRanges(Collection<Event> events, Collection<String> attendees) {
     ArrayList<TimeRange> busyTimeRanges = new ArrayList<>();
     // Filter only for events that required attendees are in
@@ -86,7 +86,7 @@ public final class FindMeetingQuery {
         }
       }
     }
-    // If the required attendees are not in any existing events, return null.
+    // If the attendees are not in any existing events, return null.
     if (busyTimeRanges.isEmpty()) {
       return null;
     }
@@ -129,6 +129,7 @@ public final class FindMeetingQuery {
     return mergedBusyTimeRanges;
   }
 
+  // Returns available time ranges for one type of attendee.
   private ArrayList<TimeRange> getAvailableTimeRanges(ArrayList<TimeRange> mergedBusyTimeRanges, int requestDuration) {
     ArrayList<TimeRange> availableTimeRanges = new ArrayList<>();
     int start = TimeRange.START_OF_DAY;
