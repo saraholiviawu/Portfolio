@@ -57,7 +57,6 @@ public final class FindMeetingQuery {
     }
 
     // Else: Assume that both mandatory and optional attendees are requested.
-    // Sort time ranges that attendees are busy for in ascending order by filtering through events.
     ArrayList<TimeRange> mandatoryAvailableTimeRanges = returnAvailableTimeRanges(events, attendees, requestDuration);
     ArrayList<TimeRange> optionalAvailableTimeRanges = returnAvailableTimeRanges(events, optionalAttendees, requestDuration);
     ArrayList<TimeRange> mutualAvailableTimeRanges = getMutualAvailableTimeRanges(mandatoryAvailableTimeRanges, optionalAvailableTimeRanges, requestDuration);
