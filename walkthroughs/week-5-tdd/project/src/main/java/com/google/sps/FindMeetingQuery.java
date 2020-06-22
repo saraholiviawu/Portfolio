@@ -66,19 +66,6 @@ public final class FindMeetingQuery {
     } else {
       return mutualAvailableTimeRanges;
     }
-
-
-    // ArrayList<TimeRange> sortedBusyTimeRanges = getSortedBusyTimeRanges(events, attendees);
-    // // If attendees are not in existing events, return whole day as a valid time range.
-    // if (sortedBusyTimeRanges == null) {
-    //   return Arrays.asList(TimeRange.WHOLE_DAY);
-    // }
-    // // Merge any overlapping time ranges.
-    // ArrayList<TimeRange> mergedBusyTimeRanges = getMergedBusyTimeRanges(sortedBusyTimeRanges);
-    // // Get available time ranges
-    // ArrayList<TimeRange> availableTimeRanges = getAvailableTimeRanges(mergedBusyTimeRanges, requestDuration);
-    // // If there are no available slots for mandatory
-    // return availableTimeRanges;
   }
 
   // Sorts ArrayList of TimeRanges by start time in ascending order.
