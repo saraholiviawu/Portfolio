@@ -23,7 +23,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public final class FindMeetingQuery {
-  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+  public Collection<TimeRange> query(Collection<Event> events, 
+      MeetingRequest request) {
 
     // Get request duration
     int requestDuration = (int) request.getDuration();
@@ -205,13 +206,15 @@ public final class FindMeetingQuery {
   // Returns overlapping time ranges between mandatory & optional time ranges
   // that have a valid duration.
   private ArrayList<TimeRange> 
-      getMutualAvailableTimeRanges(ArrayList<TimeRange> mandatoryAvailableTimeRanges, 
-      ArrayList<TimeRange> optionalAvailableTimeRanges, int requestDuration) {
+      getMutualAvailableTimeRanges(
+          ArrayList<TimeRange> mandatoryAvailableTimeRanges, 
+          ArrayList<TimeRange> optionalAvailableTimeRanges,
+          int requestDuration) {
     // Check edge case if there are no available time ranges for 
     // mandatory or optional attendees
     ArrayList<TimeRange> mutualAvailableTimeRanges = new ArrayList<>();
-    if ((mandatoryAvailableTimeRanges.size() == 0) || 
-        (optionalAvailableTimeRanges.size() == 0)) {
+    if ((mandatoryAvailableTimeRanges.size() == 0) 
+      || (optionalAvailableTimeRanges.size() == 0)) {
       return mutualAvailableTimeRanges;
     }
     int i = 0;
@@ -219,8 +222,8 @@ public final class FindMeetingQuery {
     // Initialize time ranges to valid time ranges.
     TimeRange mandatoryTimeRange = mandatoryAvailableTimeRanges.get(0);
     TimeRange optionalTimeRange = optionalAvailableTimeRanges.get(0);
-    while ((i < mandatoryAvailableTimeRanges.size()) && 
-        (j < optionalAvailableTimeRanges.size())) {
+    while ((i < mandatoryAvailableTimeRanges.size()) 
+        && (j < optionalAvailableTimeRanges.size())) {
       mandatoryTimeRange = mandatoryAvailableTimeRanges.get(i);
       optionalTimeRange = optionalAvailableTimeRanges.get(j);
       if (mandatoryTimeRange.overlaps(optionalTimeRange)) {
@@ -232,7 +235,7 @@ public final class FindMeetingQuery {
           mutualAvailableTimeRanges.add(overlappingTimeRange);
         }
       }
-      // Move pointer of the time range with an earlier end to its next time range.
+      // Move pointer of the time range with an earlier end to next time range.
       if (mandatoryTimeRange.end() < optionalTimeRange.end()) {
         i++;
       } else if (mandatoryTimeRange.end() > optionalTimeRange.end()) {
